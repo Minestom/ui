@@ -55,14 +55,14 @@ public class EntityInspector extends MSPanel {
         root.add(uuidLabel);
 
         {
-            MSToggleView parentToggle = new MSToggleView(null, "Test toggle area", false);
+            MSToggleView parentToggle = new MSToggleView("Test toggle area", false);
             root.add(parentToggle);
 
             parentToggle.addChild(new JLabel("AOIWHGAIUOGHU"));
             parentToggle.addChild(new JLabel("AOIWHGAIUOGHU"));
             parentToggle.addChild(new JLabel("AOIWHGAIUOGHU"));
 
-            MSToggleView childToggle = new MSToggleView(null, "Inner toggle area", false);
+            MSToggleView childToggle = new MSToggleView("Inner toggle area", false);
             parentToggle.addChild(childToggle);
 
             childToggle.addChild(new JLabel("WOIHGIUAOWGHUAWHGIUHAIUWDHUIOAW"));
@@ -167,7 +167,7 @@ public class EntityInspector extends MSPanel {
         if (entityTypeInfo.properties().isEmpty()) return;
 
         // Draw this meta type
-        MSToggleView view = new MSToggleView(scrollPane, entityTypeInfo.name(), false);
+        MSToggleView view = new MSToggleView(entityTypeInfo.name(), false);
         root.add(view);
 
         var entityMeta = entity.getEntityMeta();
@@ -176,30 +176,26 @@ public class EntityInspector extends MSPanel {
                     (Class<T>) property.type(),
                     () -> (T) property.get(entityMeta),
                     (newValue) -> property.set(entityMeta, newValue));
-            var entry = new InspectorEntry(property.name(), (Container) control);
+            var entry = createEntry(property.name(), (Container) control);
+//            var entry = new InspectorEntry(property.name(), (Container) control);
             view.addChild(entry); //todo this cast should not be necessary. The whole system is scuffed.
         }
     }
 
-    public static class InspectorEntry extends Container {
-        public InspectorEntry(String label, Container item) {
-            setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-//            setLayout(new FlowLayout(FlowLayout.LEADING));
+    private Container createEntry(String name, Container item) {
+        Box box = Box.createHorizontalBox();
 
-            var entryLabel = new JLabel(label);
-            entryLabel.setMinimumSize(new Dimension(100, 0));
-            entryLabel.setMaximumSize(new Dimension(100, 100));
-            add(entryLabel);
+        var label = new JLabel(name);
+        box.add(label);
 
-            add(Box.createHorizontalGlue());
+        box.add(Box.createHorizontalGlue());
 
-//            add(Box.createHorizontalStrut(10));
+        box.add(item);
 
-            add(item);
-
-            setMaximumSize(new Dimension(Short.MAX_VALUE, item.getPreferredSize().height));
-        }
+        return box;
     }
+
+
 
     /*
      * Entity metadata parsing stuff

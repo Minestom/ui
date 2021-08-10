@@ -1,5 +1,7 @@
 package net.minestom.ui.swing;
 
+import net.minestom.ui.util.SwingUtil;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,15 +17,15 @@ public class MSToggleView extends Container {
     private boolean visible;
     private JScrollPane scrollPane;
 
-    public MSToggleView(JScrollPane scrollPane, String label) {
-        this(scrollPane, label, true);
+    public MSToggleView(String label) {
+        this(label, true);
     }
 
-    public MSToggleView(JScrollPane scrollPane, String label, boolean defaultVisible) {
+    public MSToggleView(String label, boolean defaultVisible) {
         this.visible = defaultVisible;
         setLayout(new BorderLayout());
 
-        addPropertyChangeListener("__dyn_resize", e -> resize());
+        addPropertyChangeListener("minestom:resize", this::handleResizeHint);
 
         // Toggle button, always visible
         button = new JButton(label);
@@ -45,6 +47,8 @@ public class MSToggleView extends Container {
         panel = new Container();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setPreferredSize(new Dimension(Short.MAX_VALUE, panel.getPreferredSize().height));
+        // Need to forward resize events through here in case a child toggle view sends one to `panel`.
+        SwingUtil.forwardLongProperty(panel, "minestom:resize");
         if (visible) add(panel, BorderLayout.CENTER);
 
         // Spacer to simulate indent (15 aligns it with button text)
@@ -59,28 +63,23 @@ public class MSToggleView extends Container {
         resize();
     }
 
-    private void resize() {
-        // Force min size + some padding.
-        setMaximumSize(new Dimension(Short.MAX_VALUE, getMinimumSize().height + 15));
-        setPreferredSize(new Dimension(Short.MAX_VALUE, getMinimumSize().height + 15));
-
+    public void resize() {
+        revalidate();
+        repaint();
         if (getParent() != null) {
 
             getParent().revalidate();
             getParent().repaint();
-
-
-            getParent().firePropertyChange("__dyn_resize", 0, 1);
         }
 
-        recursiveFireDynamicResize(getParent());
+        setMaximumSize(new Dimension(Short.MAX_VALUE, getMinimumSize().height));
+        setPreferredSize(new Dimension(Short.MAX_VALUE, getMinimumSize().height));
+
+        if (getParent() != null) {
+            getParent().firePropertyChange("minestom:resize", 0, 1);
+        }
     }
 
-    private void recursiveFireDynamicResize(Container container) {
-        if (container == null) return;
+    private void handleResizeHint(Object /*event*/ignored) { resize(); }
 
-        container.firePropertyChange("__dyn_resize", 0, 1);
-
-        recursiveFireDynamicResize(container.getParent());
-    }
 }
