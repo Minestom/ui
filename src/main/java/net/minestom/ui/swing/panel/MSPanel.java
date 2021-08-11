@@ -19,8 +19,15 @@ public abstract class MSPanel extends JPanel {
         addHierarchyBoundsListener(SwingHelper.resize(this::handleResizeHint));
     }
 
+    protected void msResize() {
+        firePropertyChange("minestom:resize", 0, 1);
+    }
+
     private void handleResizeHint(Object /*event*/ignored) {
         if (getParent() == null) return;
+
+        doLayout();
+        revalidate();
 
         setPreferredSize(new Dimension(
                 getParent().getSize().width,

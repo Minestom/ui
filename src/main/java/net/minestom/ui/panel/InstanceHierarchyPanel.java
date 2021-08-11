@@ -1,6 +1,8 @@
 package net.minestom.ui.panel;
 
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.builder.arguments.minecraft.ArgumentEntity;
+import net.minestom.server.command.builder.exception.ArgumentSyntaxException;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.utils.NamespaceID;
@@ -9,50 +11,73 @@ import net.minestom.ui.swing.control.primitive.MSStringControl;
 import net.minestom.ui.swing.panel.MSPanel;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import java.awt.*;
 import java.util.List;
-import java.util.Set;
 
 import static net.minestom.ui.swing.util.SwingHelper.alignLeft;
 
 public class InstanceHierarchyPanel extends MSPanel {
     private List<Instance> targets = null;
+    private List<Entity> entities = null;
 
-    private final ArgumentEntity entitySelector = new ArgumentEntity("_");
-    private final MSStringControl entitySelectorControl = new MSStringControl();
+    private final ArgumentEntity entitySelector;
+    private final MSStringControl entitySelectorControl;
+
+    private final Container entityHolder;
 
     public InstanceHierarchyPanel() {
         super(NamespaceID.from("minestom", "instance_hierarchy"));
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        // Selector Argument
+        entitySelector = new ArgumentEntity("_");
+        entitySelector.onlyPlayers(false);
+        entitySelector.singleEntity(false);
+
         // Create argument selector input
+        entitySelectorControl = new MSStringControl();
+        entitySelectorControl.addChangeListener(this::updateQuery);
         entitySelectorControl.setMaximumSize(entitySelectorControl.getPreferredSize());
         add(alignLeft(entitySelectorControl));
 
-        var tempButton = new JButton("Search");
-        tempButton.addActionListener(e -> createElements());
-        add(alignLeft(tempButton));
+        entityHolder = new JPanel();
+        entityHolder.setLayout(new BoxLayout(entityHolder, BoxLayout.Y_AXIS));
+        add(entityHolder);
+    }
+
+    private void updateQuery(String newQuery) {
+        try {
+            System.out.println("UPDATE QUERY");
+            EntityFinder entityFinder = entitySelector.parse(entitySelectorControl.get());
+
+            entities = entityFinder.find(null, null).stream()
+//                .filter(entity -> targets.contains(entity.getInstance()))
+                    .toList();
+
+            createElements();
+
+            entitySelectorControl.removeClientProperty("JComponent.outline");
+        } catch (ArgumentSyntaxException ignored) {
+            entitySelectorControl.setClientProperty("JComponent.outline", "error");
+        }
     }
 
     private void createElements() {
-        entitySelector.onlyPlayers(false);
-        entitySelector.singleEntity(false);
-        EntityFinder entityFinder = entitySelector.parse(entitySelectorControl.get());
+        if (entities == null) return;
 
-        System.out.println("Creating Instance Hierarchy");
-
-        // Would be nice if entityFinder could accept a filter to a set of instances
-        List<Entity> entities = entityFinder.find(null, null).stream()
-//                .filter(entity -> targets.contains(entity.getInstance()))
-                .toList();
-
-        System.out.println("Entities: " + entities.toString());
+        entityHolder.removeAll();
+        System.out.println("Entities: " + entities);
 
         for (var entity : entities) {
             JLabel element = new JLabel(entity.getUuid() + " // " + entity.getClass().getSimpleName());
-            add(alignLeft(element));
+            entityHolder.add(alignLeft(element));
         }
+
+        entityHolder.revalidate();
+        entityHolder.repaint();
+
+        msResize();
     }
 
 
