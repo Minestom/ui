@@ -11,7 +11,7 @@ import net.minestom.ui.needspackage.EntityTypes;
 import net.minestom.ui.swing.MSToggleView;
 import net.minestom.ui.swing.SwingHelper;
 import net.minestom.ui.swing.control.MSControl;
-import net.minestom.ui.swing.control.MSDynamicControl2;
+import net.minestom.ui.swing.control.MSDynamicControl;
 import net.minestom.ui.swing.panel.MSPanel;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityEditor extends MSPanel {
-    private record MetadataElement<T>(EntityTypes.MetadataHandle.Property property, MSDynamicControl2<T> control) {
+    private record MetadataElement<T>(EntityTypes.MetadataHandle.Property property, MSDynamicControl<T> control) {
         public void update(EntityMeta meta) {
             control.set((T) property.get(meta));
         }

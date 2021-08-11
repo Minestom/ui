@@ -1,11 +1,11 @@
 package net.minestom.ui.swing.control.primitive;
 
-import net.minestom.ui.swing.control.MSDynamicControl2;
+import net.minestom.ui.swing.control.MSDynamicControl;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MSDefaultControl extends MSDynamicControl2<Object> {
+public class MSDefaultControl extends MSDynamicControl<Object> {
     private final JLabel label;
 
     public MSDefaultControl(Class<?> type) {

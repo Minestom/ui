@@ -1,11 +1,11 @@
 package net.minestom.ui.swing.control.primitive;
 
-import net.minestom.ui.swing.control.MSDynamicControl2;
+import net.minestom.ui.swing.control.MSDynamicControl;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MSStringControl extends MSDynamicControl2<String> {
+public class MSStringControl extends MSDynamicControl<String> {
     private final JTextField textField = new JTextField();
 
     public MSStringControl() {

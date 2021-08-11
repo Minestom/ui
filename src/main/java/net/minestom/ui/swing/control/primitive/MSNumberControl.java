@@ -1,11 +1,11 @@
 package net.minestom.ui.swing.control.primitive;
 
-import net.minestom.ui.swing.control.MSDynamicControl2;
+import net.minestom.ui.swing.control.MSDynamicControl;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class MSNumberControl<T extends Number> extends MSDynamicControl2<T> {
+public abstract class MSNumberControl<T extends Number> extends MSDynamicControl<T> {
     protected final SpinnerNumberModel model;
     private final JSpinner spinner;
 

@@ -1,11 +1,11 @@
 package net.minestom.ui.swing.control.primitive;
 
-import net.minestom.ui.swing.control.MSDynamicControl2;
+import net.minestom.ui.swing.control.MSDynamicControl;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MSBooleanControl extends MSDynamicControl2<Boolean> {
+public class MSBooleanControl extends MSDynamicControl<Boolean> {
     private final JCheckBox checkBox = new JCheckBox();
 
     public MSBooleanControl() {
