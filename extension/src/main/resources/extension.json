@@ -1,5 +1,12 @@
 {
   "entrypoint": "net.minestom.ui.extension.MinestomUIExtension",
   "name": "minestom_ui",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "meta": {
+    "net.minestom.ui": {
+      "panels": [
+        "net.minestom.ui.extension.panel.ExtensionTestPanel"
+      ]
+    }
+  }
 }
