@@ -1,11 +1,14 @@
 package net.minestom.ui.panel;
 
 import net.minestom.server.utils.NamespaceID;
+import net.minestom.ui.annotation.Panel;
 import net.minestom.ui.swing.panel.MSPanel;
 import net.minestom.ui.swing.MSToggleView;
 
 import javax.swing.*;
 
+//
+@Panel(name = "Test Panel", allowDuplicates = true)
 public class TestPanel extends MSPanel {
     public TestPanel() {
         super(NamespaceID.from("minestom", "test_panel"));

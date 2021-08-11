@@ -1,4 +1,4 @@
-package net.minestom.ui.swing;
+package net.minestom.ui.swing.util;
 
 import javax.swing.*;
 import java.awt.*;

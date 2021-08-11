@@ -9,7 +9,7 @@ import net.minestom.server.instance.Instance;
 import net.minestom.server.utils.NamespaceID;
 import net.minestom.ui.needspackage.EntityTypes;
 import net.minestom.ui.swing.MSToggleView;
-import net.minestom.ui.swing.SwingHelper;
+import net.minestom.ui.swing.util.SwingHelper;
 import net.minestom.ui.swing.control.MSControl;
 import net.minestom.ui.swing.control.MSDynamicControl;
 import net.minestom.ui.swing.panel.MSPanel;

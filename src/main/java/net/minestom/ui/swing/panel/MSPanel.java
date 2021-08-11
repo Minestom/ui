@@ -1,7 +1,7 @@
 package net.minestom.ui.swing.panel;
 
 import net.minestom.server.utils.NamespaceID;
-import net.minestom.ui.swing.SwingHelper;
+import net.minestom.ui.swing.util.SwingHelper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

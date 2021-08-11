@@ -1,5 +1,7 @@
 package net.minestom.ui.swing;
 
+import net.minestom.ui.swing.util.SwingHelper;
+
 import javax.swing.*;
 import java.awt.*;
 
