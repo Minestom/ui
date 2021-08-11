@@ -1,7 +1,5 @@
 package net.minestom.ui.swing;
 
-import net.minestom.ui.util.SwingUtil;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -48,7 +46,7 @@ public class MSToggleView extends Container {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setPreferredSize(new Dimension(Short.MAX_VALUE, panel.getPreferredSize().height));
         // Need to forward resize events through here in case a child toggle view sends one to `panel`.
-        SwingUtil.forwardLongProperty(panel, "minestom:resize");
+        SwingHelper.forwardLongProperty(panel, "minestom:resize");
         if (visible) add(panel, BorderLayout.CENTER);
 
         // Spacer to simulate indent (15 aligns it with button text)

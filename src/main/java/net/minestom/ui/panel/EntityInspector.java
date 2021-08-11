@@ -1,4 +1,4 @@
-package net.minestom.ui.builtin;
+package net.minestom.ui.panel;
 
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
@@ -6,7 +6,7 @@ import net.minestom.server.entity.metadata.EntityMeta;
 import net.minestom.server.utils.NamespaceID;
 import net.minestom.ui.swing.control.MSControl;
 import net.minestom.ui.swing.control.renderer.MSEnumComboBoxRenderer;
-import net.minestom.ui.panel.MSPanel;
+import net.minestom.ui.panelold.MSPanel;
 import net.minestom.ui.swing.MSToggleView;
 import net.minestom.ui.util.StringUtil;
 

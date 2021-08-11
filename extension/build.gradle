@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'java-library'
 }
 
 group 'net.minestom'
@@ -19,8 +18,7 @@ repositories {
 }
 
 dependencies {
-    api 'com.formdev:flatlaf:1.5'
-    api 'org.bidib.jbidib.com.vldocking:vldocking:3.0.6'
+    implementation project(':')
 
     // Minestom
     //todo Probably will be compileOnly, if the intent is to use it with Minestom.

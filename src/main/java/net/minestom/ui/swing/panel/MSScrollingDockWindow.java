@@ -1,4 +1,4 @@
-package net.minestom.ui.panel2;
+package net.minestom.ui.swing.panel;
 
 import com.vlsolutions.swing.docking.DockKey;
 import com.vlsolutions.swing.docking.Dockable;
@@ -17,8 +17,10 @@ public final class MSScrollingDockWindow extends JScrollPane implements Dockable
         this.panel = panel;
 
         // ScrollPane config
-        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
-        setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
+//        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+//        setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
+        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_ALWAYS);
+        setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
 
         // DockKey config
         dockKey = new DockKey(panel.getId().toString());

@@ -1,4 +1,4 @@
-package net.minestom.ui.util;
+package net.minestom.ui.swing;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,10 +7,10 @@ import java.awt.event.HierarchyEvent;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
-public class SwingUtil {
-    private SwingUtil() {}
+public class SwingHelper {
+    private SwingHelper() {}
 
-    private Container alignLeft(Container container) {
+    public static Container alignLeft(Container container) {
         // Can left align inside a vertical box layout, though the need for this is really incredible.
         // This will (i think) lose most layout hints on `container`. Not sure how `Box` handles size hints.
         Box b = Box.createHorizontalBox();

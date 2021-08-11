@@ -1,7 +1,7 @@
-package net.minestom.ui.panel2;
+package net.minestom.ui.swing.panel;
 
 import net.minestom.server.utils.NamespaceID;
-import net.minestom.ui.util.SwingUtil;
+import net.minestom.ui.swing.SwingHelper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ public abstract class MSPanel extends JPanel {
         // Respond to children sending resize messages (and window resize)
         // Used to implement MSToggleView (see notes there)
         addPropertyChangeListener("minestom:resize", this::handleResizeHint);
-        addHierarchyBoundsListener(SwingUtil.resize(this::handleResizeHint));
+        addHierarchyBoundsListener(SwingHelper.resize(this::handleResizeHint));
     }
 
     private void handleResizeHint(Object /*event*/ignored) {

@@ -1,7 +1,7 @@
-package net.minestom.ui.builtin;
+package net.minestom.ui.panel;
 
 import net.minestom.server.utils.NamespaceID;
-import net.minestom.ui.panel2.MSPanel;
+import net.minestom.ui.swing.panel.MSPanel;
 import net.minestom.ui.swing.MSToggleView;
 
 import javax.swing.*;
@@ -13,6 +13,7 @@ public class TestPanel extends MSPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         MSToggleView toggleView = new MSToggleView("Toggle View A", false);
+
         toggleView.addChild(new JLabel("ABIJHCWYIUAHFIU"));
         toggleView.addChild(new JLabel("ABIJHCWYIUAHFIU"));
         toggleView.addChild(new JLabel("ABIJHCWYIUAHFIU"));

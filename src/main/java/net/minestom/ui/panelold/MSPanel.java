@@ -1,4 +1,4 @@
-package net.minestom.ui.panel;
+package net.minestom.ui.panelold;
 
 import com.vlsolutions.swing.docking.DockKey;
 import com.vlsolutions.swing.docking.Dockable;
