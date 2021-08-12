@@ -28,25 +28,36 @@ public class EntityEditor extends MSPanel {
 
     private final List<MetadataElement<?>> elements = new ArrayList<>();
 
-    private EntityType entityType = EntityTypes.Alphabetical[EntityTypes.DefaultIndex];
-    private Entity entity = new Entity(entityType);
+    private Entity entity = null;
 
     public EntityEditor() {
         super(NamespaceID.from("minestom", "entity_editor"));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // >> TEMP
-        Instance instance = MinecraftServer.getInstanceManager().getInstances().stream().findFirst().get();
-        entity.setInstance(instance, new Vec(0, 42, 0));
-        // << TEMP
+        initForEntity();
+    }
 
-        add(SwingHelper.alignLeft(new JLabel(entity.getUuid().toString())));
-
-        createMetadataElements(EntityTypes.MetadataHandles.get(entityType));
+    public void setTarget(Entity entity) {
+        System.out.println("EntityEditor >> New Target: " + entity);
+        this.entity = entity;
+        initForEntity();
     }
 
     public void updateValues() {
         //todo
+    }
+
+    private void initForEntity() {
+        removeAll();
+
+        if (entity == null) {
+            add(new JLabel("Select an entity to edit properties"));
+        } else {
+            add(SwingHelper.alignLeft(new JLabel(entity.getUuid().toString())));
+
+            var metadata = EntityTypes.MetadataHandles.get(entity.getEntityType());
+            createMetadataElements(metadata);
+        }
     }
 
     //todo clear elements before calling this for the first time.

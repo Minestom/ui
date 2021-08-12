@@ -5,7 +5,6 @@ import com.vlsolutions.swing.docking.DockingDesktop;
 import net.minestom.server.MinecraftServer;
 import net.minestom.ui.panel.EntityEditor;
 import net.minestom.ui.panel.InstanceHierarchyPanel;
-import net.minestom.ui.panel.TestPanel;
 import net.minestom.ui.swing.MSWindow;
 import net.minestom.ui.swing.panel.MSPanel;
 import net.minestom.ui.swing.panel.MSScrollingDockWindow;
@@ -32,15 +31,32 @@ public class MainWindow extends MSWindow {
 //        final MSScrollingDockWindow testPanelWindow = new MSScrollingDockWindow(testPanel);
 //        dockView.addDockable(testPanelWindow);
 
-        final InstanceHierarchyPanel instanceHierarchyPanel = new InstanceHierarchyPanel();
+        final InstanceHierarchyPanel instanceHierarchyPanel = new InstanceHierarchyPanel(this);
+        panels.put(InstanceHierarchyPanel.class, instanceHierarchyPanel);
         final MSScrollingDockWindow instanceHierarchyPanelWindow = new MSScrollingDockWindow(instanceHierarchyPanel);
         dockView.addDockable(instanceHierarchyPanelWindow);
 
         final EntityEditor entityEditor = new EntityEditor();
+        panels.put(EntityEditor.class, entityEditor);
         final MSScrollingDockWindow entityEditorWindow = new MSScrollingDockWindow(entityEditor);
         dockView.split(instanceHierarchyPanelWindow, entityEditorWindow, DockingConstants.SPLIT_RIGHT);
 
         createMenuBar();
+    }
+
+    /**
+     * Probably not a final api, though we do need something like this.
+     *
+     * See notes in {@link net.minestom.ui.annotation.Panel} on behavior.
+     *
+     * @param type
+     * @param <T>
+     * @return
+     */
+    @Nullable
+    public <T extends MSPanel> T getPanel(Class<T> type) {
+        //noinspection unchecked
+        return (T) panels.get(type);
     }
 
     @NotNull

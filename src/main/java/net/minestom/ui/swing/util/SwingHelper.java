@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public class SwingHelper {
     private SwingHelper() {}
 
-    public static Container alignLeft(Container container) {
+    public static Box alignLeft(Container container) {
         // Can left align inside a vertical box layout, though the need for this is really incredible.
         // This will (i think) lose most layout hints on `container`. Not sure how `Box` handles size hints.
         Box b = Box.createHorizontalBox();

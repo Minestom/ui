@@ -12,6 +12,7 @@ public class MSWindow extends JFrame {
         System.setProperty("apple.laf.useScreenMenuBar", "true");
 
         FlatDarkLaf.setup();
+        MSFont.init();
     }
 
     public MSWindow(String name) {
