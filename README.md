@@ -1,3 +1,0 @@
-# Minestom Server UI
-
-...

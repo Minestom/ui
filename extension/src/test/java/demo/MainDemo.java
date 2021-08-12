@@ -2,6 +2,9 @@ package demo;
 
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.entity.Entity;
+import net.minestom.server.entity.EntityType;
+import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerLoginEvent;
@@ -32,6 +35,12 @@ public class MainDemo {
             event.setSpawningInstance(instanceContainer);
             player.setRespawnPoint(new Pos(0, 42, 0));
         });
+
+        Entity testEntity1 = new Entity(EntityType.ZOMBIE);
+        testEntity1.setInstance(instanceContainer, new Pos(-1, 42, 0));
+
+        Entity testEntity2 = new LivingEntity(EntityType.WOLF);
+        testEntity2.setInstance(instanceContainer, new Pos(1, 42, 0));
 
         // Start the server on port 25565
         minecraftServer.start("0.0.0.0", 25565);
