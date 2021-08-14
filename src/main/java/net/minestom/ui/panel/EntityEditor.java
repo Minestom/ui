@@ -58,6 +58,8 @@ public class EntityEditor extends MSPanel {
             var metadata = EntityTypes.MetadataHandles.get(entity.getEntityType());
             createMetadataElements(metadata);
         }
+
+        msResize();
     }
 
     //todo clear elements before calling this for the first time.

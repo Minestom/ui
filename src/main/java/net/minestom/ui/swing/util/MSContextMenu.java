@@ -1,6 +1,5 @@
 package net.minestom.ui.swing.util;
 
-import net.minestom.ui.swing.listener.MSMouseListener;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -13,6 +12,16 @@ public class MSContextMenu extends JPopupMenu implements MouseListener {
 
     /**
      * todo
+     *
+     * @param owner
+     */
+    public MSContextMenu(@Nullable Container owner) {
+        this(owner, null);
+    }
+
+    /**
+     * todo
+     *
      * @param owner
      * @param eventTarget A target to forward unhandled mouse events
      */
@@ -60,14 +69,17 @@ public class MSContextMenu extends JPopupMenu implements MouseListener {
     }
 
     private void forwardEvent(MouseEvent e) {
-        if (eventTarget != null) {
-            // This is to attempt to put the event in the correct coordinate space
-            // however this is only valid if `eventTarget` is a "direct" parent.
-            // Probably need a better way.
-            var location = e.getComponent().getLocation();
-            e.translatePoint(location.x, location.y);
+        var component = e.getComponent();
+        // This is to attempt to put the event in the correct coordinate space
+        // however this is only valid if `eventTarget` is a "direct" parent.
+        // Probably need a better way.
+        var location = component.getLocation();
+        e.translatePoint(location.x, location.y);
 
+        if (eventTarget != null) {
             eventTarget.dispatchEvent(e);
+        } else if (component.getParent() != null) {
+            component.getParent().dispatchEvent(e);
         }
     }
 }

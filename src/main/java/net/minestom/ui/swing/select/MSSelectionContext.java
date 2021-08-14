@@ -1,6 +1,8 @@
 package net.minestom.ui.swing.select;
 
 import net.minestom.ui.swing.listener.MSMouseListener;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,87 +15,95 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+/**
+ * Creates a list of items which supports a custom item renderer and managed selection.
+ *
+ * @param <T> The selectable type in this selection context
+ */
 public class MSSelectionContext<T> extends Container implements MSMouseListener {
     private static final Logger logger = LoggerFactory.getLogger(MSSelectionContext.class);
 
-    private MSSelectable.Factory<T> factory;
-    private BiFunction<T, T, Boolean> comparator;
-    private Consumer<T> onSelect = (e) -> {};
-
+    private final MSSelectable.Factory<T> factory;
     private final List<MSSelectable<T>> items = new ArrayList<>();
-    public MSSelectable<T> selected = null;
+    private MSSelectable<T> selection = null;
 
+    private BiFunction<T, T, Boolean> comparator = Object::equals;
+    private Consumer<T> selectionHandler = (e) -> {
+    };
+
+    /**
+     * Creates a selection context using the default selectable label.
+     *
+     * @see MSSelectableLabel
+     */
     public MSSelectionContext() {
-        this(MSSelectableLabel::new, Object::equals);
+        this(MSSelectableLabel::new);
     }
 
-    public MSSelectionContext(MSSelectable.Factory<T> factory) {
-        this(factory, Object::equals);
-    }
-
-    public MSSelectionContext(BiFunction<T, T, Boolean> comparator) {
-        this(MSSelectableLabel::new, comparator);
-    }
-
-    public MSSelectionContext(MSSelectable.Factory<T> factory, BiFunction<T, T, Boolean> comparator) {
+    /**
+     * Creates a selection context using a custom selection factory. Typically used for a custom renderer.
+     *
+     * @param factory A factory for the desired {@link MSSelectable<T>}
+     */
+    public MSSelectionContext(@NotNull MSSelectable.Factory<T> factory) {
         this.factory = factory;
-        this.comparator = comparator;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         addMouseListener(this);
     }
 
+    /**
+     * @return The currently selected item, or none if nothing is selected.
+     */
     @Nullable
     public T getSelection() {
-        if (selected == null) return null;
-        return selected.get();
+        if (selection == null) return null;
+        return selection.get();
     }
 
+    /**
+     * Sets the new selection, including deselecting a previous selection and calling relevant handlers.
+     * <p>
+     * If the item is not in this selection list, false is returned.
+     *
+     * @param selection The new selection
+     * @return True if the item is now selected
+     */
     public boolean setSelection(@Nullable T selection) {
-        boolean accepted = true;
-
-        if (this.selected != null) {
-            this.selected.setSelected(false);
-            this.selected = null;
-        }
-
-        if (selection != null) {
-            var selectable = items.stream()
+        if (selection == null) {
+            // Always accept a null selection
+            changeSelection(null);
+        } else {
+            final var newSelectable = items.stream()
                     .filter(item -> comparator.apply(item.get(), selection))
                     .findFirst().orElse(null);
-            if (selectable != null) {
-                this.selected = selectable;
-                selectable.setSelected(true);
-            } else accepted = false;
+
+            if (newSelectable == null)
+                return false; // Cannot select an item not managed by the context
+
+            changeSelection(newSelectable);
         }
-
-        if (accepted) {
-            onSelect.accept(selection);
-            logger.debug("Set selection to {}", selection);
-        }
-        return accepted;
+        return true;
     }
 
-    public void setSelectableFactory(MSSelectable.Factory<T> factory) {
-        this.factory = factory;
-    }
-
-    public void setItemComparator(BiFunction<T, T, Boolean> comparator) {
-        this.comparator = comparator;
-    }
-
-    public void setSelectionHandler(Consumer<T> onSelect) {
-        this.onSelect = onSelect;
-    }
-
+    /**
+     * Removes all items from this selection context.
+     * <p>
+     * Selection is not preserved if the selected item is added again later.
+     */
     public void clear() {
+        setSelection(null);
         items.clear();
         removeAll();
 
         resize();
     }
 
+    /**
+     * Adds a new item to the end of the context.
+     *
+     * @param item The item to be added
+     */
     public void addItem(T item) {
         var selectable = factory.create(item);
         items.add(selectable);
@@ -102,26 +112,91 @@ public class MSSelectionContext<T> extends Container implements MSMouseListener 
         resize();
     }
 
+    /**
+     * Replaces the current items with a new set.
+     * <p>
+     * Selection is preserved if the current selection still exists in the new set of items.
+     *
+     * @param items The new set of items
+     * @see #setItemComparator(BiFunction)
+     */
+    public void setItems(List<T> items) {
+        this.items.clear();
+        removeAll();
+        items.stream()
+                .map(factory::create)
+                .forEach(item -> {
+                    this.items.add(item);
+                    add((Container) item);
+                });
+
+        // Attempt to preserve selection (if there was one)
+        if (selection == null || !setSelection(selection.get())) {
+            // Old selection is no longer present, deselect.
+            setSelection(null);
+        }
+
+        resize();
+    }
+
+    public void setItemComparator(@NotNull BiFunction<T, T, Boolean> comparator) {
+        this.comparator = comparator;
+    }
+
+    public void setSelectionHandler(@NotNull Consumer<T> onSelect) {
+        this.selectionHandler = onSelect;
+    }
+
+    // Implementation details
+    // ======================
+
+    private void changeSelection(@Nullable MSSelectable<T> newSelection) {
+        // If it was null and new selection is null then do nothing
+        if (selection == null && newSelection == null) return;
+        // If the old and new are referentially equal, do nothing
+        if (selection == newSelection) return;
+
+        // If we are setting a new selection, we need to check if the current selection has the same item
+        if (selection != null && newSelection != null &&
+                comparator.apply(selection.get(), newSelection.get())) {
+            // Replace the selection but do not trigger a selection change
+            selection = newSelection;
+            newSelection.setSelected(true);
+            return;
+        }
+
+        // Visually deselect old selection
+        if (selection != null)
+            selection.setSelected(false);
+
+        if (newSelection != null) {
+            // Set new selection
+            selection = newSelection;
+            newSelection.setSelected(true);
+
+            // Notify handler that selection has changed
+            selectionHandler.accept(selection.get());
+            logger.debug("Set selection to {}", selection.get());
+        } else {
+            // Null selection
+            selection = null;
+
+            // Notify handler that selection has changed
+            selectionHandler.accept(null);
+            logger.debug("Set selection to null");
+        }
+    }
+
+    @ApiStatus.Internal
     @Override
     public void mouseClicked(MouseEvent e) {
         var clicked = getComponentAt(e.getPoint());
         if (!(clicked instanceof MSSelectable<?>))
             return;
-        e.consume();
 
         //noinspection unchecked
-        var selectable = (MSSelectable<T>) clicked;
-        if (selectable == selected) return; // No need to reselect
-
-        if (selected != null)
-            selected.setSelected(false);
-
-        selected = selectable;
-        selected.setSelected(true);
-
-        //todo There is a duplicate logic here to set the selection. Combine them.
-        onSelect.accept(selected.get());
-        logger.debug("Set selection to {}", selected.get());
+        changeSelection((MSSelectable<T>) clicked);
+        e.consume();
     }
 
     private void resize() {
@@ -130,8 +205,4 @@ public class MSSelectionContext<T> extends Container implements MSMouseListener 
 
         firePropertyChange("minestom:resize", 0, 1);
     }
-
-
-
-
 }

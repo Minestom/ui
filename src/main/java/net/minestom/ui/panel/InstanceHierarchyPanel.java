@@ -68,8 +68,8 @@ public class InstanceHierarchyPanel extends MSPanel implements MSMouseListener {
         separator.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         add(separator);
 
-        entityHolder = new MSSelectionContext<>();
-        entityHolder.setSelectableFactory(entity -> new SelectableEntity(entity, entityHolder));
+        entityHolder = new MSSelectionContext<>(entity -> new SelectableEntity(entity, null));
+//        entityHolder.setSelectableFactory();
         entityHolder.setSelectionHandler(newSelection -> {
             var entityEditor = window.getPanel(EntityEditor.class);
             if (entityEditor == null) {
@@ -119,16 +119,7 @@ public class InstanceHierarchyPanel extends MSPanel implements MSMouseListener {
     private void createElements() {
         if (entities == null) return;
 
-        //todo need to handle replacing entries smoother. I should be able to pass a
-        // collection of the selection type and it will only create new elements/remove
-        // old ones while preserving the existing ones (and their selection status)
-        // It must also call `onSelect` if the previous selection is removed.
-
-        entityHolder.clear();
-
-        for (var entity : entities) {
-            entityHolder.addItem(entity);
-        }
+        entityHolder.setItems(entities);
     }
 
     /**

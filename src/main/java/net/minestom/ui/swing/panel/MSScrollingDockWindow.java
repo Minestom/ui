@@ -21,6 +21,7 @@ public final class MSScrollingDockWindow extends JScrollPane implements Dockable
         setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
 //        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_ALWAYS);
 //        setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
+//        setBorder(BorderFactory.createEmptyBorder());
 
         // DockKey config
         dockKey = new DockKey(panel.getId().toString());

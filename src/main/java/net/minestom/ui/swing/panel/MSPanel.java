@@ -30,6 +30,7 @@ public abstract class MSPanel extends JPanel {
 
         doLayout();
         revalidate();
+        repaint();
 
         setPreferredSize(new Dimension(
                 getParent().getSize().width,
