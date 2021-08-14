@@ -1,4 +1,4 @@
-package net.minestom.ui.needspackage;
+package net.minestom.ui.panel.entity;
 
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;

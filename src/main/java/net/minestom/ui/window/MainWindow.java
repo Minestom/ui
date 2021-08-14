@@ -3,7 +3,7 @@ package net.minestom.ui.window;
 import com.vlsolutions.swing.docking.DockingConstants;
 import com.vlsolutions.swing.docking.DockingDesktop;
 import net.minestom.server.MinecraftServer;
-import net.minestom.ui.panel.EntityEditor;
+import net.minestom.ui.panel.entity.EntityEditor;
 import net.minestom.ui.panel.InstanceHierarchyPanel;
 import net.minestom.ui.swing.MSWindow;
 import net.minestom.ui.swing.panel.MSPanel;

@@ -1,13 +1,8 @@
-package net.minestom.ui.panel;
+package net.minestom.ui.panel.entity;
 
-import net.minestom.server.MinecraftServer;
-import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Entity;
-import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.metadata.EntityMeta;
-import net.minestom.server.instance.Instance;
 import net.minestom.server.utils.NamespaceID;
-import net.minestom.ui.needspackage.EntityTypes;
 import net.minestom.ui.swing.MSToggleView;
 import net.minestom.ui.swing.util.SwingHelper;
 import net.minestom.ui.swing.control.MSControl;
@@ -93,7 +88,8 @@ public class EntityEditor extends MSPanel {
         var label = new JLabel(name);
         label.setPreferredSize(new Dimension(140, label.getMinimumSize().height));
         box.add(label);
-        box.add(Box.createHorizontalStrut(10));
+        box.add(Box.createHorizontalGlue());
+//        box.add(Box.createHorizontalStrut(10));
         box.add(control);
         return box;
     }

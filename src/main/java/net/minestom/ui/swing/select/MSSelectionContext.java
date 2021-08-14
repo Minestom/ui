@@ -23,21 +23,36 @@ import java.util.function.Consumer;
 public class MSSelectionContext<T> extends Container implements MSMouseListener {
     private static final Logger logger = LoggerFactory.getLogger(MSSelectionContext.class);
 
+    // Flags
+    public static final int NONE = 0;
+    public static final int MULTI_SELECT = 0x1;
+
+    private final int opts;
     private final MSSelectable.Factory<T> factory;
     private final List<MSSelectable<T>> items = new ArrayList<>();
     private MSSelectable<T> selection = null;
 
     private BiFunction<T, T, Boolean> comparator = Object::equals;
-    private Consumer<T> selectionHandler = (e) -> {
-    };
+    private Consumer<T> selectionHandler = (e) -> {};
 
     /**
-     * Creates a selection context using the default selectable label.
+     * Creates a selection context using the default selectable label and no extra options
      *
      * @see MSSelectableLabel
      */
     public MSSelectionContext() {
-        this(MSSelectableLabel::new);
+        this(MSSelectableLabel::new, NONE);
+    }
+
+    /**
+     * Creates a selection context using the default selectable label.
+     *
+     * @param opts Extra options for the selection context
+     *
+     * @see MSSelectableLabel
+     */
+    public MSSelectionContext(int opts) {
+        this(MSSelectableLabel::new, opts);
     }
 
     /**
@@ -46,7 +61,21 @@ public class MSSelectionContext<T> extends Container implements MSMouseListener 
      * @param factory A factory for the desired {@link MSSelectable<T>}
      */
     public MSSelectionContext(@NotNull MSSelectable.Factory<T> factory) {
+        this(factory, NONE);
+    }
+
+    /**
+     * Creates a selection context using a custom selection factory. Typically used for a custom renderer.
+     *
+     * @param factory A factory for the desired {@link MSSelectable<T>}
+     * @param opts Extra options for the selection context
+     */
+    public MSSelectionContext(@NotNull MSSelectable.Factory<T> factory, int opts) {
         this.factory = factory;
+        this.opts = opts;
+
+        if (isMultiSelect())
+            throw new IllegalStateException("Multi select not currently supported.");
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         addMouseListener(this);
@@ -145,6 +174,10 @@ public class MSSelectionContext<T> extends Container implements MSMouseListener 
 
     public void setSelectionHandler(@NotNull Consumer<T> onSelect) {
         this.selectionHandler = onSelect;
+    }
+
+    public boolean isMultiSelect() {
+        return (opts & MULTI_SELECT) == MULTI_SELECT;
     }
 
     // Implementation details

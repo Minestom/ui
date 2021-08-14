@@ -7,6 +7,7 @@ import net.minestom.server.entity.EntityType;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.utils.NamespaceID;
 import net.minestom.server.utils.entity.EntityFinder;
+import net.minestom.ui.panel.entity.EntityEditor;
 import net.minestom.ui.swing.MSFont;
 import net.minestom.ui.swing.control.primitive.MSStringControl;
 import net.minestom.ui.swing.listener.MSMouseListener;
