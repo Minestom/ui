@@ -1,5 +1,7 @@
 package net.minestom.ui.swing.control.primitive;
 
+import java.awt.*;
+
 public class MSIntControl extends MSNumberControl<Integer> {
     public MSIntControl() {
         super(Integer.MIN_VALUE, Integer.MAX_VALUE, 1);

@@ -1,10 +1,13 @@
 package net.minestom.ui.window;
 
+import com.formdev.flatlaf.icons.FlatClearIcon;
 import com.vlsolutions.swing.docking.DockingConstants;
 import com.vlsolutions.swing.docking.DockingDesktop;
 import net.minestom.server.MinecraftServer;
 import net.minestom.ui.panel.entity.EntityEditor;
 import net.minestom.ui.panel.InstanceHierarchyPanel;
+import net.minestom.ui.panel.nbt.NBTEditorPanel;
+import net.minestom.ui.swing.MSFont;
 import net.minestom.ui.swing.MSWindow;
 import net.minestom.ui.swing.panel.MSPanel;
 import net.minestom.ui.swing.panel.MSScrollingDockWindow;
@@ -23,8 +26,23 @@ public class MainWindow extends MSWindow {
     public MainWindow() {
         super("Minestom UI - \"" + MinecraftServer.getBrandName() + "\" " + MinecraftServer.VERSION_NAME);
 
+
+        //todo how to change tab close icon?
+        UIManager.put("DockViewTitleBar.titleFont", MSFont.Monospaced);
+//        UIManager.put("DockViewTitleBar.close", new FlatClearIcon());
+//        UIManager.put("DockTabbedPane.menu.close", new FlatClearIcon());
+//        UIManager.put("DockTabbedPane.close", new FlatClearIcon());
+
+        //todo settings seem to be in DockingUISettings
+
+
         dockView = new DockingDesktop();
         setCentralWidget(dockView);
+        UIManager.put("DockViewTitleBar.titleFont", MSFont.Monospaced);
+
+        //todo cannot seem to change any settings >:(
+
+
 
 
 //        final TestPanel testPanel = new TestPanel();
@@ -40,6 +58,11 @@ public class MainWindow extends MSWindow {
         panels.put(EntityEditor.class, entityEditor);
         final MSScrollingDockWindow entityEditorWindow = new MSScrollingDockWindow(entityEditor);
         dockView.split(instanceHierarchyPanelWindow, entityEditorWindow, DockingConstants.SPLIT_RIGHT);
+
+        final NBTEditorPanel nbtEditor = new NBTEditorPanel();
+        panels.put(NBTEditorPanel.class, nbtEditor);
+        final MSScrollingDockWindow nbtEditorWindow = new MSScrollingDockWindow(nbtEditor);
+        dockView.split(entityEditorWindow, nbtEditorWindow, DockingConstants.SPLIT_RIGHT);
 
         createMenuBar();
     }

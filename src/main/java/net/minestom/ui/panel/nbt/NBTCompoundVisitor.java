@@ -3,8 +3,11 @@ package net.minestom.ui.panel.nbt;
 import org.jetbrains.annotations.NotNull;
 import org.jglrxavpok.hephaistos.nbt.*;
 
-public interface NBTCompoundVisitor {
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
+public interface NBTCompoundVisitor {
     default void visitByte(String key, NBTByte nbt) {}
     default void visitByteArray(String key, NBTByteArray nbt) {}
     default void visitString(String key, NBTString nbt) {}
@@ -19,8 +22,6 @@ public interface NBTCompoundVisitor {
     default void visitCompound(String key, NBTCompound compound) {
         walk(compound);
     }
-
-
 
     default void walk(@NotNull NBTCompound compound) {
         for (String k : compound.getKeys()) {
@@ -50,6 +51,93 @@ public interface NBTCompoundVisitor {
             } else if (nbt instanceof NBTCompound c) {
                 visitCompound(k, c);
             }
+        }
+    }
+
+    class Printer implements NBTCompoundVisitor {
+        private final PrintStream printer;
+        private int indent = 0;
+
+        public Printer(@NotNull PrintStream printer) {
+            this.printer = printer;
+        }
+
+        private void print(String key, String value) {
+            printer.print(" ".repeat(indent * 2));
+            printer.print(key);
+            printer.print(" : ");
+            printer.println(value);
+        }
+
+        @Override
+        public void visitByte(String key, NBTByte nbt) {
+            print(key, nbt.getValue() + "b");
+
+        }
+
+        @Override
+        public void visitByteArray(String key, NBTByteArray nbt) {
+            String[] elements = new String[nbt.getValue().length];
+            for (int i = 0; i < elements.length; i++) {
+                elements[i] = nbt.getValue()[i] + "b";
+            }
+            print(key, "[ " + String.join(",", elements) + " ]");
+        }
+
+        @Override
+        public void visitString(String key, NBTString nbt) {
+            print(key, "\"" + nbt.getValue() + "\"");
+        }
+
+        @Override
+        public void visitInt(String key, NBTInt nbt) {
+            print(key, nbt.getValue() + "");
+        }
+
+        @Override
+        public void visitIntArray(String key, NBTIntArray nbt) {
+            String stringified = Arrays.stream(nbt.getValue()).mapToObj(i -> i + "").collect(Collectors.joining(", "));
+            print(key, "[ " + stringified + " ]");
+        }
+
+        @Override
+        public void visitLong(String key, NBTLong nbt) {
+            print(key, nbt.getValue() + "l");
+        }
+
+        @Override
+        public void visitLongArray(String key, NBTLongArray nbt) {
+            String stringified = Arrays.stream(nbt.getValue()).mapToObj(i -> i + "l").collect(Collectors.joining(", "));
+            print(key, "[ " + stringified + " ]");
+        }
+
+        @Override
+        public void visitShort(String key, NBTShort nbt) {
+            print(key, nbt.getValue() + "s");
+        }
+
+        @Override
+        public void visitFloat(String key, NBTFloat nbt) {
+            print(key, nbt.getValue() + "f");
+        }
+
+        @Override
+        public void visitDouble(String key, NBTDouble nbt) {
+            print(key, nbt.getValue() + "");
+        }
+
+        @Override
+        public void visitList(String key, NBTList<?> nbt) {
+            print(key, "<list>");
+        }
+
+        @Override
+        public void visitCompound(String key, NBTCompound compound) {
+            print(key, "<compound>");
+
+            indent++;
+            NBTCompoundVisitor.super.visitCompound(key, compound);
+            indent--;
         }
     }
 }

@@ -11,9 +11,11 @@ public abstract class MSNumberControl<T extends Number> extends MSDynamicControl
 
     protected MSNumberControl(Number min, Number max, Number step) {
         model = new SpinnerNumberModel(0.0, min.doubleValue(), max.doubleValue(), step.doubleValue());
-
         spinner = new JSpinner(model);
         init(spinner);
+
+        setMinimumSize(new Dimension(100, getMinimumSize().height));
+        setPreferredSize(new Dimension(100, getPreferredSize().height));
     }
 
     @Override

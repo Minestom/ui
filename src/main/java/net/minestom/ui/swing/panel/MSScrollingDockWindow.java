@@ -2,6 +2,7 @@ package net.minestom.ui.swing.panel;
 
 import com.vlsolutions.swing.docking.DockKey;
 import com.vlsolutions.swing.docking.Dockable;
+import net.minestom.ui.swing.util.MSIcon;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

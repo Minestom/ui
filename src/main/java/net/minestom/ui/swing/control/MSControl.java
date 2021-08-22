@@ -13,6 +13,12 @@ public class MSControl {
         return MSDynamicControl.getForTypeOrDefault(type);
     }
 
+    public static <T> MSDynamicControl<T> Dynamic(Class<T> type, T initialValue) {
+        var control = MSDynamicControl.getForTypeOrDefault(type);
+        control.set(initialValue);
+        return control;
+    }
+
 
 
     static {
