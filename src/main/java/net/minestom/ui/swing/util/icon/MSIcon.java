@@ -1,4 +1,4 @@
-package net.minestom.ui.swing.util;
+package net.minestom.ui.swing.util.icon;
 
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

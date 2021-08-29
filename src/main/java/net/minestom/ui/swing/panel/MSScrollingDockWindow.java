@@ -2,7 +2,6 @@ package net.minestom.ui.swing.panel;
 
 import com.vlsolutions.swing.docking.DockKey;
 import com.vlsolutions.swing.docking.Dockable;
-import net.minestom.ui.swing.util.MSIcon;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -26,7 +25,7 @@ public final class MSScrollingDockWindow extends JScrollPane implements Dockable
 
         // DockKey config
         dockKey = new DockKey(panel.getId().toString());
-        dockKey.setFloatEnabled(false);
+        dockKey.setFloatEnabled(true);
         dockKey.setMaximizeEnabled(false);
         dockKey.setAutoHideEnabled(false);
     }

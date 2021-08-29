@@ -1,12 +1,11 @@
 package net.minestom.ui.panel.nbt;
 
 import net.minestom.server.utils.NamespaceID;
-import net.minestom.ui.swing.MSFont;
 import net.minestom.ui.swing.control.MSControl;
 import net.minestom.ui.swing.panel.MSPanel;
 import net.minestom.ui.swing.tree.MSTreeNode;
 import net.minestom.ui.swing.tree.MSTreeView;
-import net.minestom.ui.swing.util.MSIcon;
+import net.minestom.ui.swing.util.icon.MSIcon;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jglrxavpok.hephaistos.nbt.*;

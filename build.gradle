@@ -3,26 +3,24 @@ plugins {
     id 'java-library'
 }
 
-group 'net.minestom'
-version '1.0'
+allprojects {
+    apply plugin: 'java'
 
-repositories {
-    mavenCentral()
+    group 'net.minestom'
+    version '1.0'
 
-    // Minestom
-    maven { url = 'https://jitpack.io' }
-    maven { url = 'https://jcenter.bintray.com/' }
-    maven { url = 'https://repo.spongepowered.org/maven' }
-    maven { url = 'https://libraries.minecraft.net' }
-    maven { url = 'https://repo.velocitypowered.com/snapshots/' }
-    maven { url 'https://repo.minestom.net/repository/maven-public/' }
+    repositories {
+        mavenCentral()
+        maven { url = 'https://jitpack.io' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
+    }
+
+    dependencies {
+        compileOnly "com.github.Minestom:Minestom:${project.minestomVersion}"
+    }
 }
 
 dependencies {
-    api 'com.formdev:flatlaf:1.5'
-    api 'org.bidib.jbidib.com.vldocking:vldocking:3.0.6'
-
-    // Minestom
-    //todo Probably will be compileOnly, if the intent is to use it with Minestom.
-    implementation 'com.github.Minestom:Minestom:64aded8f42'
+    api "com.formdev:flatlaf:${project.flatlafVersion}"
+    api "org.bidib.jbidib.com.vldocking:vldocking:${project.vldockingVersion}"
 }

@@ -10,7 +10,7 @@ import net.minestom.server.utils.entity.EntityFinder;
 import net.minestom.ui.panel.entity.EntityEditor;
 import net.minestom.ui.swing.MSFont;
 import net.minestom.ui.swing.control.primitive.MSStringControl;
-import net.minestom.ui.swing.listener.MSMouseListener;
+import net.minestom.ui.swing.util.MSMouseListener;
 import net.minestom.ui.swing.panel.MSPanel;
 import net.minestom.ui.swing.select.MSSelectable;
 import net.minestom.ui.swing.select.MSSelectionContext;
@@ -145,7 +145,7 @@ public class InstanceHierarchyPanel extends MSPanel implements MSMouseListener {
             setBackground(new Color(74, 136, 199)); //todo keep track of this selection color somewhere logical
             setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-            String entityType = StringUtil.toHumanReadable(entity.getEntityType());
+            String entityType = entity.getEntityType().name();
             String entityClass = entity.getEntityType() == EntityType.PLAYER ?
                     "" : " - " + entity.getClass().getSimpleName();
             line1 = new JLabel(entityType + entityClass);

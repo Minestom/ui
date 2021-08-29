@@ -1,26 +1,6 @@
-plugins {
-    id 'java'
-}
-
-group 'net.minestom'
-version '1.0'
-
-repositories {
-    mavenCentral()
-
-    // Minestom
-    maven { url = 'https://jitpack.io' }
-    maven { url = 'https://jcenter.bintray.com/' }
-    maven { url = 'https://repo.spongepowered.org/maven' }
-    maven { url = 'https://libraries.minecraft.net' }
-    maven { url = 'https://repo.velocitypowered.com/snapshots/' }
-    maven { url 'https://repo.minestom.net/repository/maven-public/' }
-}
 
 dependencies {
     implementation project(':')
 
-    // Minestom
-    //todo Probably will be compileOnly, if the intent is to use it with Minestom.
-    implementation 'com.github.Minestom:Minestom:64aded8f42'
+    testImplementation "com.github.Minestom:Minestom:${project.minestomVersion}"
 }

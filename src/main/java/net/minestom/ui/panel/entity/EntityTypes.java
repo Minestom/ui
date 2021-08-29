@@ -3,6 +3,7 @@ package net.minestom.ui.panel.entity;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.metadata.EntityMeta;
+import net.minestom.server.registry.ProtocolObject;
 import net.minestom.ui.util.StringUtil;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,9 +15,8 @@ public class EntityTypes {
     /**
      * All of the entity types in alphabetical order by `Enum#name` field.
      */
-    public static final EntityType[] Alphabetical = Arrays
-            .stream(EntityType.values())
-            .sorted(Comparator.comparing(Enum::name))
+    public static final EntityType[] Alphabetical = EntityType.values().stream()
+            .sorted(Comparator.comparing(ProtocolObject::name))
             .toArray(EntityType[]::new);
 
     /**
@@ -27,7 +27,7 @@ public class EntityTypes {
     /**
      * Contains an entry for every known {@link EntityMeta} subclass.
      */
-    public static final EnumMap<EntityType, MetadataHandle> MetadataHandles = new EnumMap<>(EntityType.class);
+    public static final Map<EntityType, MetadataHandle> MetadataHandles = new HashMap<>();
 
     /**
      * Represents a single {@link EntityMeta} class with its known modifiable properties and its parent.

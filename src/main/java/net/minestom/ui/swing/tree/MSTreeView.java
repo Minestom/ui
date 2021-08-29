@@ -1,17 +1,12 @@
 package net.minestom.ui.swing.tree;
 
-import com.formdev.flatlaf.icons.*;
 import net.minestom.ui.swing.MSContainer;
-import net.minestom.ui.swing.util.MSIcon;
 import net.minestom.ui.swing.util.SwingHelper;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MSTreeView extends MSContainer {
     private static final Logger logger = LoggerFactory.getLogger(MSTreeView.class);

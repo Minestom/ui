@@ -1,6 +1,6 @@
 package net.minestom.ui.panel.nbt;
 
-import net.minestom.ui.swing.util.MSIcon;
+import net.minestom.ui.swing.util.icon.MSIcon;
 
 public interface NBTIcon {
     MSIcon Boolean = new MSIcon(":/img/nbt/nbt_boolean.png", 20, 20);

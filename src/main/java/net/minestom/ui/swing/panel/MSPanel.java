@@ -1,13 +1,11 @@
 package net.minestom.ui.swing.panel;
 
 import net.minestom.server.utils.NamespaceID;
-import net.minestom.ui.swing.listener.MSMouseListener;
 import net.minestom.ui.swing.util.SwingHelper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public abstract class MSPanel extends JPanel {
     private final NamespaceID id;

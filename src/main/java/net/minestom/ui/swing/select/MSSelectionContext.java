@@ -1,6 +1,6 @@
 package net.minestom.ui.swing.select;
 
-import net.minestom.ui.swing.listener.MSMouseListener;
+import net.minestom.ui.swing.util.MSMouseListener;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

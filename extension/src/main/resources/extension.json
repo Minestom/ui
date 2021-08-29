@@ -5,7 +5,8 @@
   "meta": {
     "net.minestom.ui": {
       "panels": [
-        "net.minestom.ui.extension.panel.ExtensionTestPanel"
+        "net.minestom.ui.extension.panel.ExtensionTestPanel",
+        "net.minestom.ui.panel.InstanceHierarchyPanel"
       ]
     }
   }

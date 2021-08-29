@@ -1,4 +1,4 @@
-package net.minestom.ui.swing.listener;
+package net.minestom.ui.swing.util;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
