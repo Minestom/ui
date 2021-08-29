@@ -1,5 +1,10 @@
 package net.minestom.ui;
 
+import net.minestom.ui.panel.InstanceHierarchyPanel;
+import net.minestom.ui.panel.PanelRegistry;
+import net.minestom.ui.panel.TestPanel;
+import net.minestom.ui.panel.entity.EntityEditor;
+import net.minestom.ui.panel.nbt.NBTEditorPanel;
 import net.minestom.ui.window.MainWindow;
 
 import java.nio.file.Paths;
@@ -13,14 +18,13 @@ public class Main {
 
         Settings.init(Paths.get("."));
 
-        MainWindow window = new MainWindow();
+        PanelRegistry.registerPanel(TestPanel.class);
+        PanelRegistry.registerPanel(InstanceHierarchyPanel.class);
+        PanelRegistry.registerPanel(NBTEditorPanel.class);
+        PanelRegistry.registerPanel(EntityEditor.class);
 
+        MainWindow window = new MainWindow();
         window.display();
 
-
-//
-
-//
-//        window.setVisible(true);
     }
 }

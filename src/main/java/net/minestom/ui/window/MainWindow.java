@@ -7,7 +7,9 @@ import com.vlsolutions.swing.docking.DockingConstants;
 import com.vlsolutions.swing.docking.DockingDesktop;
 import com.vlsolutions.swing.docking.ui.DockingUISettings;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.utils.NamespaceID;
 import net.minestom.ui.Settings;
+import net.minestom.ui.panel.PanelRegistry;
 import net.minestom.ui.panel.entity.EntityEditor;
 import net.minestom.ui.panel.InstanceHierarchyPanel;
 import net.minestom.ui.panel.nbt.NBTEditorPanel;
@@ -75,7 +77,7 @@ public class MainWindow extends MSWindow {
         dockView.registerDockable(nbtEditorWindow);
 
         // Load layout (or default)
-        if (Settings.loadLayout(dockView)) {
+        if (loadLayout()) {
             // Resizing here is a pretty ugly hack, otherwise the window is empty until resize (a revalidate/repaint didnt seem to solve it)
             setSize(getWidth() + 1, getHeight() + 1);
         } else {
@@ -109,42 +111,43 @@ public class MainWindow extends MSWindow {
     }
 
     public void saveLayout() {
-        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("./.msui/layout-main.xml"))) {
-            dockView.writeXML(new OutputStream() {
-                //todo there must be some nicer way to do this
-                @Override
-                public void write(int b) throws IOException {
-                    writer.write(b);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Settings.saveLayout(dockView);
+    }
+
+    public boolean loadLayout() {
+        return Settings.loadLayout(dockView);
     }
 
     private void createMenuBar() {
         // Can also have radio, checkbox, separator, submenu, icons (i think)
-        JMenuBar menuBar = new JMenuBarBuilder()
+        var builder = new JMenuBarBuilder()
                 .menu("File")
                     .add()
                 .menu("Edit")
                     .add()
                 .menu("View")
+                    .add();
+
+        var menuBuilder = builder.menu("Window");
+        for (String panelId : PanelRegistry.getAvailableIds()) {
+            menuBuilder = menuBuilder
+                    .item(panelId)
+                    .onClick(() -> {
+                        MSPanel panel = PanelRegistry.createPanel(panelId, this);
+                        MSScrollingDockWindow panelWindow = new MSScrollingDockWindow(panel);
+                        dockView.addDockable(panelWindow);
+                    })
+                    .add();
+        }
+
+        builder = menuBuilder.add();
+        builder.menu("Develop")
+                .item("Save Layout [tmp]")
+                    .onClick(this::saveLayout)
                     .add()
-                .menu("Window")
-                    .item("Item 1")
-                        .add()
-                    .separator()
-                    .item("Item 2")
-                        .add()
-                    .add()
-                .menu("Develop")
-                    .item("Save Layout [tmp]")
-                        .onClick(this::saveLayout)
-                        .add()
-                    .add()
+                .add()
                 .build();
 
-        setJMenuBar(menuBar);
+        setJMenuBar(builder.build());
     }
 }
