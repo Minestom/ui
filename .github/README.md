@@ -6,7 +6,7 @@
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=for-the-badge)](https://github.com/RichardLitt/standard-readme)
 [![discord-banner](https://img.shields.io/discord/706185253441634317?label=discord&style=for-the-badge&color=7289da)](https://discord.gg/pkFRvqB)
 
-> Javadocs and a wiki article will be added at a further stage
+> Javadocs and a wiki article will be added at a later stage
 
 A utility user interface for [Minestom](https://github.com/Minestom/Minestom) with extensibility in mind.
 
@@ -33,7 +33,7 @@ There will be an API for extensions or servers to dynamically register their own
 ## Contributing
 See [the contributing file](./CONTRIBUTING.md)!
 
-Some planned features/goals can be found in [this github issue](https://github.com/Minestom/Minestom/issues/398).
+Some planned features/goals can be found in [this GitHub issue](https://github.com/Minestom/Minestom/issues/398).
 
 ## License
 This project is licensed under the [Apache License Version 2.0](../LICENSE).
